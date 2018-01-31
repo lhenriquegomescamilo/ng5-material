@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { Photos } from './models/photo';
+import { PhotosService } from './share/services/photos.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  photos: Array<Photos>;
+
+  constructor(private _photosService: PhotosService) {
+    this._photosService
+      .findAllPhotos()
+      .subscribe(photos => {
+        this.photos = photos.slice(0, 10) || new Array<Photos>();
+      });
+  }
 }
